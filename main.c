@@ -4,8 +4,8 @@
 
 void draw_snake(int *snake_x, int *snake_y, int size, int index_);
 
-int snake_x[100] = {10, 10, 10, 10, 10, 10, 10, 10};
-int snake_y[100] = {10, 11, 12, 13, 14, 15, 16, 17};
+int snake_y[100] = {10, 10, 10, 10, 10, 10, 10, 10};
+int snake_x[100] = {10, 11, 12, 13, 14, 15, 16, 17};
 int max_index = 7;          	// max index of snake_y or snake_x
 
 int index_ = 0;
@@ -24,16 +24,20 @@ int main(void) {
 	        clear();            // wipes the entire screen
 		int ch = getch();   // reads a keypress; returns ERR if none (because of nodelay above)
 
-	    if (ch == 'q') break;
+		if (ch == 'q') break;
     
-
 		clock_gettime(CLOCK_MONOTONIC, &now);
 		double elapsed = (now.tv_sec - last.tv_sec) * 1000.0 + (now.tv_nsec - last.tv_nsec) / 1e6;
+
+		// draw snake
+		draw_snake(snake_x, snake_y, max_index, index_);
+
 		if (elapsed >= 70) {
 			// fps code here
 
-			// draw snake
-			draw_snake(snake_x, snake_y, max_index, index_);
+			for (int i = 0; i <= max_index; i++) {
+				snake_x[i] += 1;
+			}
 
 			last = now;
 		}
@@ -56,8 +60,4 @@ void draw_snake(int *snake_x, int *snake_y, int size, int index_) {
 	mvprintw(snake_y[index_], snake_x[index_], "0");
 	index_ += 1;
 	draw_snake(snake_x, snake_y, size, index_);
-}
-
-void move_snake() {
-	
 }
